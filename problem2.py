@@ -9,7 +9,7 @@
 def evenFib(n):
 	if n == 0:
 		return 0
-	return fibHelper(n, 0, 1, 0)
+	return fibHelperIter(n, 0, 1, 0)
 
 def fibHelper(n, p0, p1, acc):
 	if n == 1:
@@ -18,7 +18,16 @@ def fibHelper(n, p0, p1, acc):
 		return fibHelper(n - 1, p1, p0 + p1, acc + p1)
 	else:
 		return fibHelper(n - 1, p1, p0 + p1, acc)
+	
+def fibHelperIter(n, p0, p1, acc):
+	while n > 1:
+		if p1 % 2 == 0:
+			acc += p1
+		n -= 1
+		temp = p0
+		p0 = p1
+		p1 = temp + p1
+	return acc
 
 print evenFib(10) # should be 44
-# print evenFib(4000) todo: avoid stack overflow by putting this in a 
-# while loop
+print evenFib(4000)
