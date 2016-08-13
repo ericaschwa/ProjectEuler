@@ -36,6 +36,7 @@ earlylens = {
 }
 
 tensdigs = {
+	0:  0,
 	20: 6,
 	30: 6,
 	40: 5,
@@ -47,44 +48,47 @@ tensdigs = {
 }
 
 powsoften = {
-	100: 7,
-	1000: 8,
-	1000000: 7,
-	1000000000: 7,
+	0:             0,
+	100:           7,
+	1000:          8,
+	1000000:       7,
+	1000000000:    7,
 	1000000000000: 7
 }
 
+def getTwoDigitLen(n):
+	if n < 20:
+		return earlylens[n]
+	else:
+		tensdig = (n / 10) * 10
+		remainder = n % 10
+		return tensdigs[tensdig] + earlylens[remainder]
+
+# works while n < 100
 def lettersUsed(num):
 	n = 1
 	sumLetts = 0
 
-	while n < 20 and n < num:
-		sumLetts += earlylens[n]
-		n += 1
-
-	while n < 100 and n < num:
-		tensdig = (n / 10) * 10
-		remainder = n % 10
-		sumLetts += tensdigs[tensdig] + earlylens[remainder]
-		n += 1
-
-	while n < 1000 and n < num:
-		hundredsdig = (n / 100) * 100
-		tensremainder = n % 100
-		tensdig = (tensremainder / 10) * 10
-		remainder = tensremainder % 10
-
-		# "and" is needed here
-		if tensdig == 0:
-			sumLetts += hundredsdig + powsoften[100] + 3 + tensdig + remainder
-		# not needed here
+	while n < num:
+		if n < 100:
+			sumLetts += getTwoDigitLen(n)
+			n += 1
 		else:
-			sumLetts += hundredsdig + powsoften[100] + tensdig + remainder
+			hundredsdig = (n / 100) * 100
+			tensremainder = n % 100
+			lasttwodigits = getTwoDigitLen(tensremainder)
 
-		n += 1
+			# "and" is needed here
+			if tensdig == 0:
+				sumLetts += hundredsdig + powsoften[100] + 3 + lasttwodigits
+			# "and" is not needed here
+			else:
+				sumLetts += hundredsdig + powsoften[100] + lasttwodigits
+
+			n += 1
 
 	return sumLetts
 
 print lettersUsed(6) # 19
-print lettersUsed(100) # 19
+print lettersUsed(100)
 
