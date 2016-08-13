@@ -75,25 +75,29 @@ def getThreeDigitLen(n):
 	else:
 		return hundredsdig + powsoften[100] + lasttwodigits
 
-def getThousandsLen(n):
-	numthousands = getThreeDigitLen(n / 1000)
-	rest = getThreeDigitLen(n % 1000)
-	return numthousands + powsoften[1000] + rest
+def getBigPartLen(n, powten):
+	numthousands = getThreeDigitLen(n / powten)
+	rest = getThreeDigitLen(n % powten)
+	return numthousands + powsoften[powten] + rest
 
 # works while n < 100
 def lettersUsed(num):
 	n = 1
 	sumLetts = 0
-
 	while n < num:
 		if n < 100:
 			sumLetts += getTwoDigitLen(n)
 		elif n < 1000:
 			sumLetts += getThreeDigitLen(n)
 		elif n < 1000000:
-			sumLetts += getThousandsLen(n)
+			sumLetts += getBigPartLen(n, 1000)
+		elif n < 1000000000:
+			sumLetts += getBigPartLen(n, 1000000)
+		elif n < 1000000000000:
+			sumLetts += getBigPartLen(n, 1000000000)
+		elif n < 1000000000000000:
+			sumLetts += getBigPartLen(n, 1000000000000)
 		n += 1
-
 	return sumLetts
 
 print lettersUsed(6) # 19
