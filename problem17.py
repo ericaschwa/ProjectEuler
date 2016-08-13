@@ -13,6 +13,7 @@
 # is in compliance with British usage.
 
 earlylens = {
+	0:  0,
 	1:  3,
 	2:  3,
 	3:  5,
@@ -54,19 +55,36 @@ powsoften = {
 }
 
 def lettersUsed(num):
-	n = 0
+	n = 1
 	sumLetts = 0
 
-	while n < 20:
+	while n < 20 and n < num:
 		sumLetts += earlylens[n]
 		n += 1
 
-	while n < 100:
+	while n < 100 and n < num:
 		tensdig = (n / 10) * 10
 		remainder = n % 10
 		sumLetts += tensdigs[tensdig] + earlylens[remainder]
-		n += 1 
+		n += 1
 
+	while n < 1000 and n < num:
+		hundredsdig = (n / 100) * 100
+		tensremainder = n % 100
+		tensdig = (tensremainder / 10) * 10
+		remainder = tensremainder % 10
 
+		# "and" is needed here
+		if tensdig == 0:
+			sumLetts += hundredsdig + powsoften[100] + 3 + tensdig + remainder
+		# not needed here
+		else:
+			sumLetts += hundredsdig + powsoften[100] + tensdig + remainder
 
+		n += 1
+
+	return sumLetts
+
+print lettersUsed(6) # 19
+print lettersUsed(100) # 19
 
