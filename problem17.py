@@ -52,3 +52,21 @@ powsoften = {
 	1000000000: 7,
 	1000000000000: 7
 }
+
+def lettersUsed(num):
+	n = 0
+	sumLetts = 0
+
+	while n < 20:
+		sumLetts += earlylens[n]
+		n += 1
+
+	while n < 100:
+		tensdig = (n / 10) * 10
+		remainder = n % 10
+		sumLetts += tensdigs[tensdig] + earlylens[remainder]
+		n += 1 
+
+
+
+
