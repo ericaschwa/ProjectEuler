@@ -64,6 +64,22 @@ def getTwoDigitLen(n):
 		remainder = n % 10
 		return tensdigs[tensdig] + earlylens[remainder]
 
+def getThreeDigitLen(n):
+	hundredsdig = (n / 100) * 100
+	tensremainder = n % 100
+	lasttwodigits = getTwoDigitLen(tensremainder)
+	# "and" is needed here
+	if tensremainder / 10 == 0:
+		return hundredsdig + powsoften[100] + 3 + lasttwodigits
+	# "and" is not needed here
+	else:
+		return hundredsdig + powsoften[100] + lasttwodigits
+
+def getThousandsLen(n):
+	numthousands = getThreeDigitLen(n / 1000)
+	rest = getThreeDigitLen(n % 1000)
+	return numthousands + powsoften[1000] + rest
+
 # works while n < 100
 def lettersUsed(num):
 	n = 1
@@ -72,23 +88,15 @@ def lettersUsed(num):
 	while n < num:
 		if n < 100:
 			sumLetts += getTwoDigitLen(n)
-			n += 1
-		else:
-			hundredsdig = (n / 100) * 100
-			tensremainder = n % 100
-			lasttwodigits = getTwoDigitLen(tensremainder)
-
-			# "and" is needed here
-			if tensdig == 0:
-				sumLetts += hundredsdig + powsoften[100] + 3 + lasttwodigits
-			# "and" is not needed here
-			else:
-				sumLetts += hundredsdig + powsoften[100] + lasttwodigits
-
-			n += 1
+		elif n < 1000:
+			sumLetts += getThreeDigitLen(n)
+		elif n < 1000000:
+			sumLetts += getThousandsLen(n)
+		n += 1
 
 	return sumLetts
 
 print lettersUsed(6) # 19
-print lettersUsed(100)
+print lettersUsed(100) # 854
+print lettersUsed(1001) # 465141
 
