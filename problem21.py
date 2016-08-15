@@ -17,15 +17,30 @@ def sumDivisors(n):
 			sumD += i
 	return sumD
 
-print sumDivisors(220) #284
-print sumDivisors(284) #220
+def sumAmicableNums(max):
+	divisorSums = {}
+	sumAmicableNums = 0
+	for i in range(0, 10000):
+		iDivisorSum = sumDivisors(i)
+		if iDivisorSum in divisorSums and divisorSums[iDivisorSum] == i:
+			sumAmicableNums += iDivisorSum + divisorSums[iDivisorSum]
+		divisorSums[i] = iDivisorSum
+	return sumAmicableNums
 
-divisorSums = {}
-amicableNums = set()
-for i in range(0,10000):
-	iDivisorSum = sumDivisors(i)
-	if iDivisorSum in divisorSums and divisorSums[iDivisorSum] == i:
-		amicableNums.add((iDivisorSum, divisorSums[iDivisorSum]))
-	divisorSums[i] = iDivisorSum
 
-print amicableNums
+print sumDivisors(220) # 284
+print sumDivisors(284) # 220
+
+print sumDivisors(2620) # 2924
+print sumDivisors(2924) # 2620
+
+print sumDivisors(6232) # 6368
+print sumDivisors(6368) # 6232
+
+print sumDivisors(1184) # 1210
+print sumDivisors(1210) # 1184
+
+print sumDivisors(5020) # 5564
+print sumDivisors(5564) # 5020
+
+print sumAmicableNums(10000) # 31122
