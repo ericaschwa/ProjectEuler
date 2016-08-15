@@ -19,3 +19,13 @@ def sumDivisors(n):
 
 print sumDivisors(220) #284
 print sumDivisors(284) #220
+
+divisorSums = {}
+amicableNums = set()
+for i in range(0,10000):
+	iDivisorSum = sumDivisors(i)
+	if iDivisorSum in divisorSums and divisorSums[iDivisorSum] == i:
+		amicableNums.add((iDivisorSum, divisorSums[iDivisorSum]))
+	divisorSums[i] = iDivisorSum
+
+print amicableNums
